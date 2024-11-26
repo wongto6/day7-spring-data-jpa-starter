@@ -47,15 +47,17 @@ public class EmployeeService {
             throw new EmployeeAgeSalaryNotMatchedException();
 
         employee.setActive(true);
-        return employeeInMemoryRepository.create(employee);
+        return employeeRepository.save(employee);
     }
 
     public Employee update(Integer employeeId, Employee employee) {
-        Employee employeeExisted = employeeInMemoryRepository.findById(employeeId);
+        Employee employeeExisted = employeeRepository.findById(employeeId).orElseThrow();
         if (!employeeExisted.getActive())
             throw new EmployeeInactiveException();
 
-        return employeeInMemoryRepository.update(employeeId, employee);
+        employeeInMemoryRepository.update(employeeId, employeeExisted);
+
+        return employeeRepository.findById(employeeId).orElseThrow();
     }
 
     public void delete(Integer employeeId) {
