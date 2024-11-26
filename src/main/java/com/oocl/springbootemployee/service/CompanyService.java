@@ -3,29 +3,34 @@ package com.oocl.springbootemployee.service;
 import com.oocl.springbootemployee.model.Company;
 import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.repository.CompanyInMemoryRepository;
+import com.oocl.springbootemployee.repository.CompanyRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyService {
     private final CompanyInMemoryRepository companyInMemoryRepository;
 
-    public CompanyService(CompanyInMemoryRepository companyInMemoryRepository) {
+    private final CompanyRepository companyRepository;
+
+    public CompanyService(CompanyInMemoryRepository companyInMemoryRepository, CompanyRepository companyRepository) {
         this.companyInMemoryRepository = companyInMemoryRepository;
+        this.companyRepository = companyRepository;
     }
 
-    public List<Company> findAll(){
-        return companyInMemoryRepository.findAll();
+    public List<Company> findAll() {
+        return companyRepository.findAll();
     }
 
     public List<Company> findAll(int pageIndex, int pageSize) {
-        List<Company> companiesInPage = companyInMemoryRepository.getCompaniesByPagination(pageIndex, pageSize);
-        return companiesInPage.stream().toList();
+        return companyRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
     public Company findById(Integer id) {
-        return companyInMemoryRepository.findById(id);
+        return companyRepository.findById(id).orElseThrow();
     }
 
 
@@ -45,7 +50,7 @@ public class CompanyService {
         var nameToUpdate = company.getName() == null ? companyNeedToUpdate.getName() : company.getName();
         var employeesToUpdate = company.getEmployees() == null ? companyNeedToUpdate.getEmployees() : company.getEmployees();
 
-        final var companyToUpdate = new Company(id,nameToUpdate,employeesToUpdate);
+        final var companyToUpdate = new Company(id, nameToUpdate, employeesToUpdate);
         return companyInMemoryRepository.updateCompany(id, companyToUpdate);
     }
 }
