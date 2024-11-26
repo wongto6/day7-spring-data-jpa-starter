@@ -64,6 +64,6 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeEmployee(@PathVariable Integer id) {
-        companyService.findAll().removeIf(company -> company.getId().equals(id));
+        companyService.delete(id);
     }
 }

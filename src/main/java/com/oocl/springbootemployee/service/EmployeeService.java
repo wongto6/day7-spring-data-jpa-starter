@@ -57,9 +57,7 @@ public class EmployeeService {
         if (!employeeExisted.getActive())
             throw new EmployeeInactiveException();
 
-        employeeRepository.save(employee);
-
-        return employeeRepository.findById(employeeId).orElseThrow();
+        return employeeRepository.save(employee);
     }
 
     public void delete(Integer employeeId) {

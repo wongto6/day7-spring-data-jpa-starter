@@ -41,17 +41,21 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        return companyInMemoryRepository.addCompany(company);
+        return companyRepository.save(company);
     }
 
     public Company update(Integer id, Company company) {
-        final var companyNeedToUpdate = companyInMemoryRepository
-                .findById(id);
+        final var companyNeedToUpdate = companyRepository
+                .findById(id).orElseThrow();
 
         var nameToUpdate = company.getName() == null ? companyNeedToUpdate.getName() : company.getName();
         var employeesToUpdate = company.getEmployees() == null ? companyNeedToUpdate.getEmployees() : company.getEmployees();
 
         final var companyToUpdate = new Company(id, nameToUpdate, employeesToUpdate);
-        return companyInMemoryRepository.updateCompany(id, companyToUpdate);
+        return companyRepository.save(companyToUpdate);
+    }
+
+    public void delete(Integer id) {
+        companyRepository.deleteById(id);
     }
 }
