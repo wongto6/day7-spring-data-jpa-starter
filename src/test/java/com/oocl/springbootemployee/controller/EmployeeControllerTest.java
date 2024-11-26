@@ -42,7 +42,7 @@ class EmployeeControllerTest {
     @BeforeEach
     void setup() {
         setupForInMemory();
-        setupForReal();
+        //setupForReal();
     }
 
     private void setupForReal() {
@@ -66,7 +66,7 @@ class EmployeeControllerTest {
     @Test
     void should_return_employees_when_get_all_given_employee_exist() throws Exception {
         //given
-        final List<Employee> givenEmployees = employeeInMemoryRepository.findAll();
+        final List<Employee> givenEmployees = employeeRepository.findAll();
 
         //when
         //then
@@ -83,11 +83,11 @@ class EmployeeControllerTest {
     @Test
     void should_return_employee_when_get_by_id() throws Exception {
         // Given
-        final Employee givenEmployee = employeeInMemoryRepository.findAll().get(0);
+        final Employee givenEmployee = employeeRepository.findAll().get(0);
 
         // When
         // Then
-        client.perform(MockMvcRequestBuilders.get("/employees/1"))
+        client.perform(MockMvcRequestBuilders.get("/employees/" + givenEmployee.getId()))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenEmployee.getId()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenEmployee.getName()))
