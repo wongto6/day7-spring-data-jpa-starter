@@ -69,7 +69,7 @@ class EmployeeServiceTest {
         Employee kitty = new Employee(1, "Kitty", 6, Gender.FEMALE, 8000.0);
         //then
         assertThrows(EmployeeAgeNotValidException.class, () -> employeeService.create(kitty));
-        verify(mockedEmployeeInMemoryRepository, never()).create(any());
+        verify(mockedEmployeeRepository, never()).save(any());
     }
 
     @Test
