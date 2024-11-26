@@ -151,6 +151,7 @@ class EmployeeControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenSalary));
         List<Employee> employees = employeeRepository.findAll();
         assertThat(employees).hasSize(1);
+        assertThat(employees.get(0).getId()).isEqualTo(employeeRepository.findAll().get((int) employeeRepository.count() -1 ).getId());
         assertThat(employees.get(0).getName()).isEqualTo(givenName);
         assertThat(employees.get(0).getAge()).isEqualTo(givenAge);
         assertThat(employees.get(0).getGender()).isEqualTo(givenGender);
@@ -188,6 +189,7 @@ class EmployeeControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenSalary));
         List<Employee> employees = employeeRepository.findAll();
         assertThat(employees).hasSize(5);
+        assertThat(employees.get(0).getId()).isEqualTo(employeeRepository.findById(givenId).orElseThrow().getId());
         assertThat(employees.get(0).getName()).isEqualTo(givenName);
         assertThat(employees.get(0).getAge()).isEqualTo(givenAge);
         assertThat(employees.get(0).getGender()).isEqualTo(givenGender);
