@@ -22,10 +22,8 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-
-
     public List<Employee> findAll() {
-        return employeeRepository.findAll();
+        return employeeInMemoryRepository.findAll();
     }
 
     public List<Employee> findAll(Gender gender) {
