@@ -12,6 +12,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     public List<Employee> getAllByGender(Gender gender);
 
-    public List<Employee> getAllByAgeAfterAndGender(Integer age, Gender gender);
-
 }
