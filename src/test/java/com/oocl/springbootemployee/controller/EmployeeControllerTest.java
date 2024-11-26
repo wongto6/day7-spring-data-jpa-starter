@@ -8,6 +8,8 @@ import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
 import com.oocl.springbootemployee.repository.EmployeeInMemoryRepository;
 import java.util.List;
+
+import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +34,27 @@ class EmployeeControllerTest {
     private EmployeeInMemoryRepository employeeInMemoryRepository;
 
     @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
     private JacksonTester<List<Employee>> employeesJacksonTester;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
+        setupForInMemory();
+        setupForReal();
+    }
+
+    private void setupForReal() {
+        employeeRepository.deleteAll();
+        employeeRepository.save(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
+        employeeRepository.save(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
+        employeeRepository.save(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
+        employeeRepository.save(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
+        employeeRepository.save(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
+    }
+
+    private void setupForInMemory() {
         employeeInMemoryRepository.findAll().clear();
         employeeInMemoryRepository.create(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
         employeeInMemoryRepository.create(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));

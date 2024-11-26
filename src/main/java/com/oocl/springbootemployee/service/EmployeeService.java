@@ -6,9 +6,11 @@ import com.oocl.springbootemployee.exception.EmployeeInactiveException;
 import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
 import com.oocl.springbootemployee.repository.EmployeeInMemoryRepository;
+
 import java.util.List;
 
 import com.oocl.springbootemployee.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,18 +41,18 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
-        if(employee.getAge() < 18 || employee.getAge() > 65)
+        if (employee.getAge() < 18 || employee.getAge() > 65)
             throw new EmployeeAgeNotValidException();
-        if(employee.getAge() >= 30 && employee.getSalary() < 20000.0)
+        if (employee.getAge() >= 30 && employee.getSalary() < 20000.0)
             throw new EmployeeAgeSalaryNotMatchedException();
 
         employee.setActive(true);
         return employeeInMemoryRepository.create(employee);
     }
 
-    public Employee update(Integer employeeId , Employee employee) {
+    public Employee update(Integer employeeId, Employee employee) {
         Employee employeeExisted = employeeInMemoryRepository.findById(employeeId);
-        if(!employeeExisted.getActive())
+        if (!employeeExisted.getActive())
             throw new EmployeeInactiveException();
 
         return employeeInMemoryRepository.update(employeeId, employee);
