@@ -187,6 +187,7 @@ class EmployeeControllerTest {
     void should_remove_employee_success() throws Exception {
         // Given
         int givenId = employeeRepository.findAll().get(0).getId();
+        List<Employee> employeesBefore = employeeRepository.findAll();
 
         // When
         // Then
@@ -194,10 +195,10 @@ class EmployeeControllerTest {
             .andExpect(MockMvcResultMatchers.status().isNoContent());
         List<Employee> employees = employeeRepository.findAll();
         assertThat(employees).hasSize(4);
-        assertThat(employees.get(0).getId()).isEqualTo(employeeRepository.findAll().get(0).getId());
-        assertThat(employees.get(1).getId()).isEqualTo(employeeRepository.findAll().get(1).getId());
-        assertThat(employees.get(2).getId()).isEqualTo(employeeRepository.findAll().get(2).getId());
-        assertThat(employees.get(3).getId()).isEqualTo(employeeRepository.findAll().get(3).getId());
+        assertThat(employees.get(0).getId()).isEqualTo(employeesBefore.get(1).getId());
+        assertThat(employees.get(1).getId()).isEqualTo(employeesBefore.get(2).getId());
+        assertThat(employees.get(2).getId()).isEqualTo(employeesBefore.get(3).getId());
+        assertThat(employees.get(3).getId()).isEqualTo(employeesBefore.get(4).getId());
     }
 
     @Test
