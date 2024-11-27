@@ -17,12 +17,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
-    private final EmployeeInMemoryRepository employeeInMemoryRepository;
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeInMemoryRepository employeeInMemoryRepository, EmployeeRepository employeeRepository) {
-        this.employeeInMemoryRepository = employeeInMemoryRepository;
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 

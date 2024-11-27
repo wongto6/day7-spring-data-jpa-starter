@@ -31,9 +31,6 @@ class EmployeeControllerTest {
     private MockMvc client;
 
     @Autowired
-    private EmployeeInMemoryRepository employeeInMemoryRepository;
-
-    @Autowired
     private EmployeeRepository employeeRepository;
 
     @Autowired
@@ -41,7 +38,6 @@ class EmployeeControllerTest {
 
     @BeforeEach
     void setup() {
-        setupForInMemory();
         setupForReal();
     }
 
@@ -52,15 +48,6 @@ class EmployeeControllerTest {
         employeeRepository.save(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
         employeeRepository.save(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
         employeeRepository.save(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
-    }
-
-    private void setupForInMemory() {
-        employeeInMemoryRepository.findAll().clear();
-        employeeInMemoryRepository.create(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
-        employeeInMemoryRepository.create(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
-        employeeInMemoryRepository.create(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
-        employeeInMemoryRepository.create(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
-        employeeInMemoryRepository.create(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
     }
 
     @Test
